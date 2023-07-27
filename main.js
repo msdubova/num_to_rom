@@ -92,34 +92,33 @@ export function numToRoms(num) {
     }
 
     if (Object.keys(LIBRARY).includes(num)) {
-        return LIBRARY[num]
+        return LIBRARY[num];
     }
 
     const numArray = Array.from(num.toString(), Number);
 
-
     if (numArray.length === 1) {
-        // Однозначное число
-        // Логика для однозначных чисел
-        // Например:
+        // Single-digit number
+        // Logic for single-digit numbers
+        // For example:
         return LIBRARY[num];
     } else if (numArray.length === 2) {
-        // Двухзначное число
-        // Логика для двухзначных чисел
-        // Например:
+        // Two-digit number
+        // Logic for two-digit numbers
+        // For example:
         const tensPlace = LIBRARY[numArray[0] * 10];
         const onesPlace = LIBRARY[numArray[1]];
         return tensPlace + onesPlace;
     } else if (numArray.length === 3) {
-        // Трехзначное число
-        // Логика для трехзначных чисел
-        // Например:
+        // Three-digit number
+        // Logic for three-digit numbers
+        // For example:
         const hundredsPlace = LIBRARY[numArray[0] * 100];
         const tensPlace = LIBRARY[numArray[1] * 10];
         const onesPlace = LIBRARY[numArray[2]];
         return hundredsPlace + tensPlace + onesPlace;
     } else {
-        // Если число имеет более чем три цифры, вернуть пустую строку или другое значение по вашему выбору.
+        // If the number has more than three digits, return an empty string or any other value of your choice.
         return '';
     }
 }
