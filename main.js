@@ -45,12 +45,8 @@ export function numToRoms(num) {
         return result;
     }
 
-    function numberToArray(number) {
-        return Array.from(number.toString(), Number)
-    }
-
     function convertNumber(number) {
-        const numArray = numberToArray(number);
+        const numArray = Array.from(number.toString(), Number);
         if (numArray.length === 1) {
             return convertProperNumberOfNumber(numArray[0], 1, 'I', 'V');
         } else if (numArray.length === 2) {
