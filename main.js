@@ -6,8 +6,11 @@ export const LIBRARY = {
     10: 'X',
     40: 'XL',
     50: 'L',
+    90: 'XC',
     100: 'C',
+    400: 'CD',
     500: 'D',
+    900: 'CM',
     1000: 'M'
 };
 
@@ -28,31 +31,17 @@ export function numToRoms(num) {
         }
     }
 
-    function convertSingleDigitNumbers(number) {
-        if (LIBRARY[number]) {
-            return LIBRARY[number]
+    function convertProperNumberOfNumber(number, scale, acc, exception) {
+        if (LIBRARY[number * scale]) {
+            return LIBRARY[number * scale]
         }
         let result = '';
-
         for (let i = 0; i < number; i++) {
-            result = result + 'I';
+            result = result + acc;
         }
-
-        if (number > 5) {
-            result = 'V' + result.slice(5)
+        if (number >= 5) {
+            result = exception + result.slice(5)
         }
-
-        return result;
-    }
-
-    function convertDoubleDigitNumbers(number) {
-        
-        let result = '';
-
-        for (let i = 0; i < number; i++) {
-            result = result + 'X'
-        }
-
         return result;
     }
 
@@ -63,29 +52,17 @@ export function numToRoms(num) {
     function convertNumber(number) {
         const numArray = numberToArray(number);
         if (numArray.length === 1) {
-            // Single-digit number
-            // Logic for single-digit numbers   
-
-            return convertSingleDigitNumbers(numArray[0]);
+            return convertProperNumberOfNumber(numArray[0], 1, 'I', 'V');
         } else if (numArray.length === 2) {
-            // // Two-digit number
-            // // Logic for two-digit numbers
-            // return convertSingleDigitNumbers(numArray);
-            return `${convertDoubleDigitNumbers(numArray[0])}${convertSingleDigitNumbers(numArray[1])}`;
+            return `${convertProperNumberOfNumber(numArray[0], 10, 'X', 'L')}${convertProperNumberOfNumber(numArray[1], 1, 'I', 'V')}`;
         } else if (numArray.length === 3) {
-            // Three-digit number
-            // Logic for three-digit numbers
-            return `Первое число + Второе число + ${convertSingleDigitNumbers(numArray[1])}`;
-        } else {
-            // If the number has more than three digits, return an empty string or any other value of your choice.
-            return '';
+            return `${convertProperNumberOfNumber(numArray[0], 100, 'C', 'D')}${convertProperNumberOfNumber(numArray[1], 10, 'X', 'L')}${convertProperNumberOfNumber(numArray[2], 1, 'I', 'V')}`;
+        } else if (numArray.length === 4) {
+            return `${convertProperNumberOfNumber(numArray[0], 1000, 'M', 'Err')}${convertProperNumberOfNumber(numArray[1], 100, 'C', 'D')}${convertProperNumberOfNumber(numArray[2], 10, 'X', 'L')}${convertProperNumberOfNumber(numArray[3], 1, 'I', 'V')}`;
         }
     }
 
     return isInLibrary(num);
 }
 
-
-
-
-console.log(numToRoms(25)); // 'CXXX'
+console.log(numToRoms(401));
