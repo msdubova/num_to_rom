@@ -20,33 +20,37 @@ export function numToRoms(num) {
         throw new Error("Numbers greater than 3000 are not supported.");
     }
 
-
-
-
     function isInLibrary(number) {
-        if (Object.keys(LIBRARY).includes(number)) {
+        if (LIBRARY[number]) {
             return LIBRARY[number];
         } else {
-           return convertNumber(number);
+            return convertNumber(number);
         }
     }
 
     function convertSingleDigitNumbers(number) {
-        if (Object.keys(LIBRARY).includes(number)) {
-            return LIBRARY[number];
+        if (LIBRARY[number]) {
+            return LIBRARY[number]
         }
-        if (Number.isInteger(number)) {
-            return numberToArray(number)
+        let result = '';
+
+        for (let i = 0; i < number; i++) {
+            result = result + 'I';
         }
 
-        let result = number.reduce((acc, element) => {
-            for (let i = 0; i < element; i++) {
-                acc = acc + 'I'
-            } return acc;
-        }, '');
-
-        if (number[0] > 5) {
+        if (number > 5) {
             result = 'V' + result.slice(5)
+        }
+
+        return result;
+    }
+
+    function convertDoubleDigitNumbers(number) {
+        
+        let result = '';
+
+        for (let i = 0; i < number; i++) {
+            result = result + 'X'
         }
 
         return result;
@@ -62,12 +66,12 @@ export function numToRoms(num) {
             // Single-digit number
             // Logic for single-digit numbers   
 
-            return convertSingleDigitNumbers(numArray);
+            return convertSingleDigitNumbers(numArray[0]);
         } else if (numArray.length === 2) {
-            // Two-digit number
-            // Logic for two-digit numbers
-            return `Первое число + ${convertSingleDigitNumbers(numArray[1])}`;
-
+            // // Two-digit number
+            // // Logic for two-digit numbers
+            // return convertSingleDigitNumbers(numArray);
+            return `${convertDoubleDigitNumbers(numArray[0])}${convertSingleDigitNumbers(numArray[1])}`;
         } else if (numArray.length === 3) {
             // Three-digit number
             // Logic for three-digit numbers
@@ -78,8 +82,10 @@ export function numToRoms(num) {
         }
     }
 
-   return isInLibrary(num);
+    return isInLibrary(num);
 }
 
 
-console.log(numToRoms(23)); // 'CXXX'
+
+
+console.log(numToRoms(25)); // 'CXXX'
